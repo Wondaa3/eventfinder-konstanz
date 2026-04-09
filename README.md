@@ -17,7 +17,3 @@ LatePass ist eine Web-App für Studierende und junge Erwachsene, die lokale Even
 | Leon Pluto | ________ |
 
 ---
-
-
-| Media Query | `style.css` – ab Zeile XX |
-| URL-Struktur | siehe Tabelle oben |
