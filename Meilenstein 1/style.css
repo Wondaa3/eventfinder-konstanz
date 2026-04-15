@@ -37,12 +37,12 @@
 /* Login Seite */
 
 body {
-    background-color: var(--white);
+    background-color: var(--blue-light);
     margin: 0;
 }
 
 header {
-    background-color: var(--blue);
+    background-color: var(--blue-dark);
     color: white;
     padding: 10px;
     display: flex;
@@ -65,10 +65,10 @@ form {
     gap: 8px;
 }
 
-+footer {
+footer {
     text-align: center;
     padding: 10px;
-    background-color: var(--green-dark);
+    background-color: var(--blue-dark);
     color: white;
 }
 
@@ -77,3 +77,5 @@ form {
         flex-direction: column;
     }
 }
+
+
