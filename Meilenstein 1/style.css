@@ -65,7 +65,7 @@ form {
     gap: 8px;
 }
 
-+footer {
+footer {
     text-align: center;
     padding: 10px;
     background-color: var(--green-dark);
