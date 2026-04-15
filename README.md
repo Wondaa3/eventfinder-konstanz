@@ -12,6 +12,6 @@ LatePass ist eine Web-App für Studierende und junge Erwachsene, die lokale Even
 |---|---|---|
 | Semantische HTML-Struktur | index.html | Z. 11-66 |
 | Formular mit Labels | index.html, login.html | Z. 27-34, Z. 10-15 |
-| Responsives Layout (Flexbox/Grid) | styles.css | Z. 20–50 |
+| Responsives Layout (Flexbox/Grid) | styles.css | Z. 39-79
 | Media Query | styles.css | Z. 90 |
 | URL-Struktur | index.html, about.html | Pfade: /, /about |
