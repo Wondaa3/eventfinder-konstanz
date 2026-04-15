@@ -10,8 +10,8 @@ LatePass ist eine Web-App für Studierende und junge Erwachsene, die lokale Even
 ## Kriterien-Zuordnung M1
 | Kriterium | Datei | Zeile / Hinweis |
 |---|---|---|
-| Semantische HTML-Struktur | index.html | Z. 10–45 |
-| Formular mit Labels | index.html | Z. 60–80 |
+| Semantische HTML-Struktur | index.html | Z. 11-66 |
+| Formular mit Labels | index.html | Z. 27-34 |
 | Responsives Layout (Flexbox/Grid) | styles.css | Z. 20–50 |
 | Media Query | styles.css | Z. 90 |
 | URL-Struktur | index.html, about.html | Pfade: /, /about |
