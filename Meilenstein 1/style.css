@@ -37,12 +37,16 @@
 body {
     background-color: var(--blue-light);
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
 }
 
 header {
     background-color: var(--blue-dark);
     color: white;
-    padding: 10px;
+    padding: 6px 10px;
+    border-radius: 0 0 12px 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -56,45 +60,42 @@ nav a {
 main {
     padding: 40px;
     padding-bottom: 60px;
+    flex: 1;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    max-width: 400px;
     width: 250px;
     gap: 8px;
 }
 
 footer {
     text-align: center;
-    padding: 10px;
+    padding: 2px;
+    border-radius: 12px 12px 0 0;
     background-color: var(--blue-dark);
     color: white;
-
-    position: fixed;
-    bottom: 0;
-    left: 0;
     width: 100%;
-
 }
 
 article {
     background-color: var(--white);
     border-radius: 12px;
     border: 1px solid var(--grey-light);
-    padding: 1.5rem;
+    padding: 15px;
 }
 
-section:last-of-type {
+section{
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 2rem;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 20px;
 }
 
-section:last-of-type h2 {
-    grid-column: 1 / -1;
-}
 
 @media (max-width: 480px) {
     header {
