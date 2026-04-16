@@ -34,8 +34,6 @@
     --cyan:        #06b6d4;
 }
 
-/* Login Seite */
-
 body {
     background-color: var(--blue-light);
     margin: 0;
@@ -57,6 +55,7 @@ nav a {
 
 main {
     padding: 40px;
+    padding-bottom: 60px;
 }
 
 form {
@@ -68,14 +67,14 @@ form {
 
 footer {
     text-align: center;
-        padding: 10px;
-        background-color: var(--blue-dark);
-        color: white;
+    padding: 10px;
+    background-color: var(--blue-dark);
+    color: white;
 
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 
 }
 
