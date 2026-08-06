@@ -145,6 +145,19 @@ section {
     color: var(--grey-dark);
 }
 
+.error {
+    color: var(--red);
+}
+
+.event-card a {
+    color: var(--blue);
+}
+
+header nav span {
+    color: white;
+    margin-left: 10px;
+}
+
 @media (max-width: 768px) {
     .event-grid {
         grid-template-columns: 1fr;

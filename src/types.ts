@@ -1,4 +1,4 @@
-// Zentrales Datenmodell für die ganze App (VL 07: Interfaces).
+// Zentrales Datenmodell für die ganze App.
 // Heißt EventItem, weil der Name "Event" im Browser schon vergeben ist (DOM-Event).
 
 export type Category = "Konzert" | "Party" | "Kino" | "Festival" | "Uni";
@@ -8,6 +8,6 @@ export interface EventItem {
   title: string;
   date: string;
   city: string;
-  category: Category;
+  category: string;
   price: number; // 0 = kostenlos
 }

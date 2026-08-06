@@ -1,15 +1,21 @@
 import { useState } from "react";
-import type { Category, EventItem } from "../types";
+import type { Category } from "../types";
+
+export interface NewEvent {
+  title: string;
+  date: string;
+  city: string;
+  category: string;
+  price: number;
+}
 
 interface AddEventFormProps {
-  onAdd: (event: EventItem) => void;
+  onAdd: (event: NewEvent) => void;
 }
 
 const categories: Category[] = ["Konzert", "Party", "Kino", "Festival", "Uni"];
 
-// Formular zum Anlegen eines neuen Events.
-// Hat eigenen lokalen State (kontrollierte Inputs) und meldet
-// das fertige Event per Callback nach oben an App.
+// Formular zum Anlegen eines neuen Events. Meldet die Daten per Callback nach oben.
 function AddEventForm({ onAdd }: AddEventFormProps) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -22,7 +28,6 @@ function AddEventForm({ onAdd }: AddEventFormProps) {
     if (!title.trim() || !city.trim()) return;
 
     onAdd({
-      id: Date.now(),
       title: title.trim(),
       date: date.trim() || "Datum folgt",
       city: city.trim(),
@@ -30,7 +35,6 @@ function AddEventForm({ onAdd }: AddEventFormProps) {
       price: price === "" ? 0 : Number(price),
     });
 
-    // Formular zurücksetzen
     setTitle("");
     setDate("");
     setCity("");

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { EventItem } from "../types";
 
 interface EventCardProps {
@@ -15,6 +16,7 @@ function EventCard({ event }: EventCardProps) {
       <p>
         {event.date} · {event.city} · {preis}
       </p>
+      <Link to={`/events/${event.id}`}>Details</Link>
     </article>
   );
 }
