@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useMemo, type ReactNode } from "react";
+import { apiFetch } from "../api";
 
 type User = { id: number; email: string; name: string };
 
@@ -18,16 +19,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   async function login(email: string, password: string) {
-    const res = await fetch("/api/auth/login", {
+    const data = await apiFetch<{ token: string; user: User }>("/api/auth/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || "Login fehlgeschlagen");
-    }
-    const data = await res.json();
     setToken(data.token);
     setUser(data.user);
   }

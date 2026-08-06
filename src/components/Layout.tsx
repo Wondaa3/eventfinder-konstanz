@@ -1,9 +1,14 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import { useFavorites } from "../favorites/FavoritesContext";
+
+const linkClass = ({ isActive }: { isActive: boolean }) =>
+  isActive ? "nav-link active" : "nav-link";
 
 // Gemeinsamer Rahmen für alle Seiten. Die aktive Route landet im <Outlet />.
 function Layout() {
   const { isAuthenticated, user, logout } = useAuth();
+  const { favorites } = useFavorites();
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -14,19 +19,38 @@ function Layout() {
   return (
     <>
       <header>
-        <h1>LatePass</h1>
-        <nav>
-          <Link to="/">Events</Link>
-          <Link to="/neu">Event eintragen</Link>
+        <Link to="/" className="logo">
+          LatePass
+        </Link>
+
+        <nav aria-label="Hauptnavigation">
+          <NavLink to="/" end className={linkClass}>
+            Events
+          </NavLink>
+          <NavLink to="/favoriten" className={linkClass}>
+            Favoriten
+            {favorites.length > 0 && <span className="count">{favorites.length}</span>}
+          </NavLink>
+          <NavLink to="/neu" className={linkClass}>
+            Event eintragen
+          </NavLink>
           {isAuthenticated ? (
             <>
-              <span>Hi, {user?.name}</span>
-              <a href="#" onClick={handleLogout}>Logout</a>
+              <NavLink to="/profil" className={linkClass}>
+                {user?.name}
+              </NavLink>
+              <button type="button" className="link-button" onClick={handleLogout}>
+                Logout
+              </button>
             </>
           ) : (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Registrieren</Link>
+              <NavLink to="/login" className={linkClass}>
+                Login
+              </NavLink>
+              <NavLink to="/register" className={linkClass}>
+                Registrieren
+              </NavLink>
             </>
           )}
         </nav>
@@ -37,10 +61,10 @@ function Layout() {
       </main>
 
       <footer>
-        <p>2026 LatePass</p>
-        <nav>
-          <a href="#">Impressum</a>
-          <a href="#">Datenschutz</a>
+        <p>2026 LatePass · Events in ganz Deutschland</p>
+        <nav aria-label="Rechtliches">
+          <a href="#impressum">Impressum</a>
+          <a href="#datenschutz">Datenschutz</a>
         </nav>
       </footer>
     </>

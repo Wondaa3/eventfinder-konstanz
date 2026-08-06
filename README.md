@@ -9,12 +9,35 @@ LatePass ist eine Web-App für Studierende und junge Erwachsene, die lokale Even
 
 ## Setup
 
+Es müssen zwei Server laufen (zwei Terminals).
+
+**Backend** (Express + SQLite):
+
+```bash
+cd backend
+npm install
+npx prisma db push
+npm run seed
+npm run dev
+```
+
+**Frontend** (Vite + React), im Projekt-Wurzelordner:
+
 ```bash
 npm install
 npm run dev
 ```
 
-Die App läuft dann unter http://localhost:5173.
+Die App läuft dann unter http://localhost:5173, die API unter
+http://localhost:3000. Tests laufen mit `npm test`.
+
+Testzugang: `test@latepass.de` / `test1234`
+
+## Dokumentation
+
+- [`MEILENSTEIN_3.md`](MEILENSTEIN_3.md) – Architektur und Kriterien für M3
+- [`MEILENSTEIN_3_DETAILS.md`](MEILENSTEIN_3_DETAILS.md) – Erklärung Datei für Datei
+- [`ERWEITERUNGEN.md`](ERWEITERUNGEN.md) – zusätzliche Features und Design danach
 
 ## Kriterien-Zuordnung M2
 

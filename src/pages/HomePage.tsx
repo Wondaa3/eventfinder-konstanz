@@ -1,50 +1,92 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../components/SearchBar";
+import { useSearchParams } from "react-router-dom";
+import FilterBar from "../components/FilterBar";
 import EventList from "../components/EventList";
+import EventStats from "../components/EventStats";
+import { apiFetch } from "../api";
+import {
+  ALL_CATEGORIES,
+  filterEvents,
+  sortEvents,
+  type SortOption,
+} from "../utils/eventFilter";
 import type { EventItem } from "../types";
 
 function HomePage() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
-  const [city, setCity] = useState("");
 
-  // Events vom Backend holen
+  // Die Filter stehen in der URL (VL 10): so bleiben sie beim Neuladen
+  // erhalten und lassen sich als Link weitergeben.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("q") ?? "";
+  const city = searchParams.get("stadt") ?? "";
+  const category = searchParams.get("kategorie") ?? ALL_CATEGORIES;
+  const onlyFree = searchParams.get("gratis") === "1";
+  const sort = (searchParams.get("sort") as SortOption) ?? "datum";
+
+  function setParam(key: string, value: string) {
+    const next = new URLSearchParams(searchParams);
+    if (value === "") {
+      next.delete(key);
+    } else {
+      next.set(key, value);
+    }
+    setSearchParams(next, { replace: true });
+  }
+
   useEffect(() => {
     setLoading(true);
-    fetch("/api/events")
-      .then((res) => {
-        if (!res.ok) throw new Error("Events konnten nicht geladen werden");
-        return res.json();
-      })
+    apiFetch<EventItem[]>("/api/events")
       .then((data) => setEvents(data))
-      .catch((err) => setError(err.message))
+      .catch((err: Error) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  const visibleEvents = events.filter((event) => {
-    const matchesQuery =
-      event.title.toLowerCase().includes(query.toLowerCase()) ||
-      event.category.toLowerCase().includes(query.toLowerCase());
-    const matchesCity = event.city.toLowerCase().includes(city.toLowerCase());
-    return matchesQuery && matchesCity;
-  });
+  const visibleEvents = sortEvents(
+    filterEvents(events, { query, city, category, onlyFree }),
+    sort
+  );
 
   return (
     <>
+      <section className="hero">
+        <h1>Events in deiner Stadt</h1>
+        <p>Finde Konzerte, Partys, Uni-Events und mehr – überall in Deutschland.</p>
+        <EventStats events={events} />
+      </section>
+
       <section>
-        <SearchBar
+        <h2>Suche &amp; Filter</h2>
+        <FilterBar
           query={query}
           city={city}
-          onQueryChange={setQuery}
-          onCityChange={setCity}
+          category={category}
+          onlyFree={onlyFree}
+          sort={sort}
+          onQueryChange={(value) => setParam("q", value)}
+          onCityChange={(value) => setParam("stadt", value)}
+          onCategoryChange={(value) =>
+            setParam("kategorie", value === ALL_CATEGORIES ? "" : value)
+          }
+          onOnlyFreeChange={(value) => setParam("gratis", value ? "1" : "")}
+          onSortChange={(value) => setParam("sort", value === "datum" ? "" : value)}
+          onReset={() => setSearchParams({}, { replace: true })}
         />
       </section>
 
       <section>
-        <h2>Aktuelle Events</h2>
-        {loading && <p>Lädt...</p>}
+        <div className="section-head">
+          <h2>Aktuelle Events</h2>
+          {!loading && !error && (
+            <p className="result-count">
+              {visibleEvents.length} von {events.length} Events
+            </p>
+          )}
+        </div>
+
+        {loading && <p className="loading">Lädt...</p>}
         {error && <p className="error">{error}</p>}
         {!loading && !error && <EventList events={visibleEvents} />}
       </section>

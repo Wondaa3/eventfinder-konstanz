@@ -1,69 +1,113 @@
 import { useState } from "react";
-import type { Category } from "../types";
+import { categories, type Category, type EventItem } from "../types";
 
 export interface NewEvent {
   title: string;
   date: string;
+  time: string;
   city: string;
   category: string;
   price: number;
+  description: string;
 }
 
 interface AddEventFormProps {
   onAdd: (event: NewEvent) => void;
+  initialEvent?: EventItem;
+  submitLabel?: string;
+  heading?: string;
 }
 
-const categories: Category[] = ["Konzert", "Party", "Kino", "Festival", "Uni"];
+// Formular zum Anlegen und Bearbeiten eines Events.
+// Meldet die Daten per Callback nach oben.
+function AddEventForm({
+  onAdd,
+  initialEvent,
+  submitLabel = "Event hinzufügen",
+  heading = "Eigenes Event eintragen",
+}: AddEventFormProps) {
+  const [title, setTitle] = useState(initialEvent?.title ?? "");
+  const [date, setDate] = useState(initialEvent?.date ?? "");
+  const [time, setTime] = useState(initialEvent?.time ?? "");
+  const [city, setCity] = useState(initialEvent?.city ?? "");
+  const [category, setCategory] = useState<Category>(
+    (initialEvent?.category as Category) ?? "Konzert"
+  );
+  const [price, setPrice] = useState(
+    initialEvent && initialEvent.price > 0 ? String(initialEvent.price) : ""
+  );
+  const [description, setDescription] = useState(initialEvent?.description ?? "");
+  const [hint, setHint] = useState("");
 
-// Formular zum Anlegen eines neuen Events. Meldet die Daten per Callback nach oben.
-function AddEventForm({ onAdd }: AddEventFormProps) {
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [city, setCity] = useState("");
-  const [category, setCategory] = useState<Category>("Konzert");
-  const [price, setPrice] = useState("");
+  const titleLeft = 80 - title.length;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!title.trim() || !city.trim()) return;
+
+    if (!title.trim() || !city.trim()) {
+      setHint("Bitte mindestens Titel und Stadt ausfüllen.");
+      return;
+    }
+    setHint("");
 
     onAdd({
       title: title.trim(),
-      date: date.trim() || "Datum folgt",
+      date: date.trim(),
+      time: time.trim(),
       city: city.trim(),
       category,
       price: price === "" ? 0 : Number(price),
+      description: description.trim(),
     });
+
+    if (initialEvent) return;
 
     setTitle("");
     setDate("");
+    setTime("");
     setCity("");
     setCategory("Konzert");
     setPrice("");
+    setDescription("");
   }
 
   return (
-    <div className="suche">
-      <h2>Eigenes Event eintragen</h2>
+    <div className="form-card">
+      <h2>{heading}</h2>
+      {hint && <p className="error">{hint}</p>}
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="titel">Titel</label>
         <input
           type="text"
           id="titel"
+          maxLength={80}
           placeholder="z.B. Jazznacht am See"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <small>{titleLeft} Zeichen übrig</small>
 
-        <label htmlFor="datum">Datum</label>
-        <input
-          type="text"
-          id="datum"
-          placeholder="z.B. 20. Juni"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+        <div className="form-row">
+          <div>
+            <label htmlFor="datum">Datum</label>
+            <input
+              type="date"
+              id="datum"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="uhrzeit">Uhrzeit</label>
+            <input
+              type="time"
+              id="uhrzeit"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            />
+          </div>
+        </div>
 
         <label htmlFor="event-stadt">Stadt</label>
         <input
@@ -97,7 +141,16 @@ function AddEventForm({ onAdd }: AddEventFormProps) {
           onChange={(e) => setPrice(e.target.value)}
         />
 
-        <button type="submit">Event hinzufügen</button>
+        <label htmlFor="beschreibung">Beschreibung</label>
+        <textarea
+          id="beschreibung"
+          rows={4}
+          placeholder="Was erwartet die Besucher?"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <button type="submit">{submitLabel}</button>
       </form>
     </div>
   );

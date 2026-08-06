@@ -2,9 +2,13 @@ import { Link } from "react-router-dom";
 
 function NotFound() {
   return (
-    <section>
+    <section className="not-found">
+      <p className="big">404</p>
       <h2>Seite nicht gefunden</h2>
-      <Link to="/">Zurück zur Startseite</Link>
+      <p>Diese Seite gibt es nicht (mehr). Vielleicht war der Link veraltet.</p>
+      <Link className="button-link" to="/">
+        Zurück zur Startseite
+      </Link>
     </section>
   );
 }

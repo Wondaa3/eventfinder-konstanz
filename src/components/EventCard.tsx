@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import FavoriteButton from "./FavoriteButton";
+import { formatDate, formatPrice, isIsoDate } from "../utils/format";
 import type { EventItem } from "../types";
 
 interface EventCardProps {
@@ -7,16 +9,34 @@ interface EventCardProps {
 
 // Zeigt ein einzelnes Event als Karte an.
 function EventCard({ event }: EventCardProps) {
-  const preis = event.price === 0 ? "kostenlos" : `${event.price} €`;
-
   return (
     <article className="event-card">
-      <span className="badge">{event.category}</span>
+      <div className="card-top">
+        <span className={`badge badge-${event.category.toLowerCase()}`}>
+          {event.category}
+        </span>
+        <FavoriteButton eventId={event.id} title={event.title} />
+      </div>
+
       <h3>{event.title}</h3>
-      <p>
-        {event.date} · {event.city} · {preis}
+
+      <p className="card-meta">
+        <time dateTime={isIsoDate(event.date) ? event.date : undefined}>
+          {formatDate(event.date)}
+        </time>
+        {event.time && <span> · {event.time} Uhr</span>}
       </p>
-      <Link to={`/events/${event.id}`}>Details</Link>
+      <p className="card-meta">{event.city}</p>
+
+      {event.description && <p className="card-text">{event.description}</p>}
+
+      <p className={event.price === 0 ? "price free" : "price"}>
+        {formatPrice(event.price)}
+      </p>
+
+      <Link className="button-link" to={`/events/${event.id}`}>
+        Details
+      </Link>
     </article>
   );
 }
