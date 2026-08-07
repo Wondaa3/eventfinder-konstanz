@@ -198,8 +198,4 @@ eventfinder-konstanz/
 
 ---
 
-## Weitere Dokumentation
 
-- **Ausarbeitung (PDF, ~20 Seiten):** siehe `Aufgaben/M4_Ausarbeitung_LatePass.pdf` — enthält detaillierte Kapitel zu Architektur, API-Design, Datenbankschema, Umsetzung pro Meilenstein, Teststrategie, Reflexion und Screenshots.
-- **Demo-Video-Skript:** siehe `DEMO_VIDEO.md`
-- **Session-Änderungen:** siehe `ÄNDERUNGEN.md`
