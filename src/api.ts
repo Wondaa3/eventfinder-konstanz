@@ -1,7 +1,5 @@
 type ApiOptions = RequestInit & { token?: string | null };
 
-// Kleiner fetch-Wrapper (VL 13): setzt die Header, hängt das Token an
-// und wirft bei einer Fehlerantwort eine Exception mit der Meldung des Backends.
 export async function apiFetch<T>(path: string, { token, ...options }: ApiOptions = {}) {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",

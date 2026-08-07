@@ -1,6 +1,3 @@
-// Zentrales Datenmodell für die ganze App.
-// Heißt EventItem, weil der Name "Event" im Browser schon vergeben ist (DOM-Event).
-
 export type Category = "Konzert" | "Party" | "Kino" | "Festival" | "Uni";
 
 export const categories: Category[] = ["Konzert", "Party", "Kino", "Festival", "Uni"];
@@ -14,7 +11,23 @@ export interface EventItem {
   category: string;
   price: number; // 0 = kostenlos
   description?: string | null;
+  lat?: number | null;
+  lng?: number | null;
   user?: { id: number; name: string } | null;
+  signupCount: number;
+  messageCount: number;
+}
+
+export interface Participant {
+  id: number;
+  name: string;
+}
+
+export interface ChatMessage {
+  id: number;
+  text: string;
+  createdAt: string;
+  user: { id: number; name: string };
 }
 
 export interface Profile {

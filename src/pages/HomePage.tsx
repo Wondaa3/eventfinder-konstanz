@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import FilterBar from "../components/FilterBar";
 import EventList from "../components/EventList";
+import EventMap from "../components/EventMap";
 import EventStats from "../components/EventStats";
 import { apiFetch } from "../api";
 import {
@@ -17,8 +18,7 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Die Filter stehen in der URL (VL 10): so bleiben sie beim Neuladen
-  // erhalten und lassen sich als Link weitergeben.
+  // Filter stehen in der URL
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
   const city = searchParams.get("stadt") ?? "";
@@ -52,9 +52,25 @@ function HomePage() {
   return (
     <>
       <section className="hero">
-        <h1>Events in deiner Stadt</h1>
-        <p>Finde Konzerte, Partys, Uni-Events und mehr – überall in Deutschland.</p>
-        <EventStats events={events} />
+        <div className="hero-map">
+          <EventMap
+            events={events}
+            height="100%"
+            fitGermany
+            interactive={false}
+            heatRadius={16}
+            heatBlur={12}
+          />
+        </div>
+
+        <div className="hero-inhalt">
+          <h1>Events in deiner Stadt</h1>
+          <p>Finde Konzerte, Partys, Uni-Events und mehr – überall in Deutschland.</p>
+          <EventStats events={events} />
+          <p className="map-legende">
+            <span className="legende-balken" /> wenige Events – viele Events
+          </p>
+        </div>
       </section>
 
       <section>

@@ -6,7 +6,6 @@ interface EventListProps {
   emptyText?: string;
 }
 
-// Rendert eine Liste von Events (VL 08: Listen mit map und key).
 function EventList({ events, emptyText = "Keine Events gefunden." }: EventListProps) {
   if (events.length === 0) {
     return <p className="empty-state">{emptyText}</p>;

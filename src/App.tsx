@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import EventDetailPage from "./pages/EventDetailPage";
+import MapPage from "./pages/MapPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -17,10 +18,11 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="events/:id" element={<EventDetailPage />} />
-        <Route path="favoriten" element={<FavoritesPage />} />
+        <Route path="karte" element={<MapPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route element={<ProtectedRoute />}>
+          <Route path="favoriten" element={<FavoritesPage />} />
           <Route path="neu" element={<AddEventPage />} />
           <Route path="events/:id/bearbeiten" element={<EditEventPage />} />
           <Route path="profil" element={<ProfilePage />} />

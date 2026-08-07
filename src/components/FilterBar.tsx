@@ -1,5 +1,5 @@
-import { categories } from "../types";
-import { ALL_CATEGORIES, type SortOption } from "../utils/eventFilter";
+import CategoryChips from "./CategoryChips";
+import type { SortOption } from "../utils/eventFilter";
 
 interface FilterBarProps {
   query: string;
@@ -15,8 +15,6 @@ interface FilterBarProps {
   onReset: () => void;
 }
 
-// Alle Filter als kontrollierte Inputs (VL 09). Der State liegt in der HomePage
-// (lifting state up) und steht dort auch in der URL.
 function FilterBar({
   query,
   city,
@@ -69,27 +67,7 @@ function FilterBar({
         </div>
       </div>
 
-      <div className="chip-row">
-        <button
-          type="button"
-          className={category === ALL_CATEGORIES ? "chip active" : "chip"}
-          aria-pressed={category === ALL_CATEGORIES}
-          onClick={() => onCategoryChange(ALL_CATEGORIES)}
-        >
-          Alle
-        </button>
-        {categories.map((c) => (
-          <button
-            key={c}
-            type="button"
-            className={category === c ? "chip active" : "chip"}
-            aria-pressed={category === c}
-            onClick={() => onCategoryChange(c)}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
+      <CategoryChips value={category} onChange={onCategoryChange} />
 
       <div className="filter-row bottom">
         <label className="checkbox">

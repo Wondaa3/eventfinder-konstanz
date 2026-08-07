@@ -1,44 +1,25 @@
-import { useEffect, useState } from "react";
 import EventList from "../components/EventList";
-import { apiFetch } from "../api";
 import { useFavorites } from "../favorites/FavoritesContext";
-import type { EventItem } from "../types";
 
 function FavoritesPage() {
-  const { favorites, clearFavorites } = useFavorites();
-  const [events, setEvents] = useState<EventItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    apiFetch<EventItem[]>("/api/events")
-      .then((data) => setEvents(data))
-      .catch((err: Error) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const savedEvents = events.filter((event) => favorites.includes(event.id));
+  const { favorites, loading } = useFavorites();
 
   return (
     <section>
       <div className="section-head">
         <h2>Meine Favoriten</h2>
-        {savedEvents.length > 0 && (
-          <button type="button" className="secondary" onClick={clearFavorites}>
-            Liste leeren
-          </button>
-        )}
+        <p className="result-count">{favorites.length} gemerkt</p>
       </div>
 
       <p className="hint">
-        Favoriten werden im Browser gespeichert und bleiben auch nach einem Neuladen erhalten.
+        Deine Merkliste hängt an deinem Account – du siehst sie also auch auf einem anderen
+        Gerät wieder.
       </p>
 
       {loading && <p className="loading">Lädt...</p>}
-      {error && <p className="error">{error}</p>}
-      {!loading && !error && (
+      {!loading && (
         <EventList
-          events={savedEvents}
+          events={favorites}
           emptyText="Noch keine Favoriten. Klick auf den Stern einer Karte."
         />
       )}

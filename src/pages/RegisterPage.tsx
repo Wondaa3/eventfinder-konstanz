@@ -21,7 +21,6 @@ function RegisterPage() {
         method: "POST",
         body: JSON.stringify({ email, name, password }),
       });
-      // direkt einloggen nach der Registrierung
       await login(email, password);
       navigate("/");
     } catch (err) {

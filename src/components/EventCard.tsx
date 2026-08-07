@@ -7,7 +7,6 @@ interface EventCardProps {
   event: EventItem;
 }
 
-// Zeigt ein einzelnes Event als Karte an.
 function EventCard({ event }: EventCardProps) {
   return (
     <article className="event-card">
@@ -32,6 +31,11 @@ function EventCard({ event }: EventCardProps) {
 
       <p className={event.price === 0 ? "price free" : "price"}>
         {formatPrice(event.price)}
+      </p>
+
+      <p className="card-counts">
+        <span title="Angemeldete Leute">{event.signupCount} dabei</span>
+        <span title="Nachrichten im Chat">{event.messageCount} Nachrichten</span>
       </p>
 
       <Link className="button-link" to={`/events/${event.id}`}>

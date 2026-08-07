@@ -1,4 +1,5 @@
 import { useState } from "react";
+import LocationPicker from "./LocationPicker";
 import { categories, type Category, type EventItem } from "../types";
 
 export interface NewEvent {
@@ -9,6 +10,8 @@ export interface NewEvent {
   category: string;
   price: number;
   description: string;
+  lat: number | null;
+  lng: number | null;
 }
 
 interface AddEventFormProps {
@@ -18,8 +21,6 @@ interface AddEventFormProps {
   heading?: string;
 }
 
-// Formular zum Anlegen und Bearbeiten eines Events.
-// Meldet die Daten per Callback nach oben.
 function AddEventForm({
   onAdd,
   initialEvent,
@@ -37,6 +38,8 @@ function AddEventForm({
     initialEvent && initialEvent.price > 0 ? String(initialEvent.price) : ""
   );
   const [description, setDescription] = useState(initialEvent?.description ?? "");
+  const [lat, setLat] = useState(initialEvent?.lat != null ? String(initialEvent.lat) : "");
+  const [lng, setLng] = useState(initialEvent?.lng != null ? String(initialEvent.lng) : "");
   const [hint, setHint] = useState("");
 
   const titleLeft = 80 - title.length;
@@ -58,6 +61,8 @@ function AddEventForm({
       category,
       price: price === "" ? 0 : Number(price),
       description: description.trim(),
+      lat: lat === "" ? null : Number(lat),
+      lng: lng === "" ? null : Number(lng),
     });
 
     if (initialEvent) return;
@@ -69,10 +74,12 @@ function AddEventForm({
     setCategory("Konzert");
     setPrice("");
     setDescription("");
+    setLat("");
+    setLng("");
   }
 
   return (
-    <div className="form-card">
+    <div className="form-card wide">
       <h2>{heading}</h2>
       {hint && <p className="error">{hint}</p>}
 
@@ -148,6 +155,20 @@ function AddEventForm({
           placeholder="Was erwartet die Besucher?"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <p className="feld-titel">Genauer Ort</p>
+        <LocationPicker
+          lat={lat}
+          lng={lng}
+          onPick={(pickedLat, pickedLng) => {
+            setLat(String(pickedLat));
+            setLng(String(pickedLng));
+          }}
+          onClear={() => {
+            setLat("");
+            setLng("");
+          }}
         />
 
         <button type="submit">{submitLabel}</button>

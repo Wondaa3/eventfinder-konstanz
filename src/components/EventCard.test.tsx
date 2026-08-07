@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { screen } from "@testing-library/react";
 import EventCard from "./EventCard";
 import { renderWithProviders } from "../test/renderWithProviders";
 import type { EventItem } from "../types";
@@ -13,13 +13,11 @@ const event: EventItem = {
   category: "Konzert",
   price: 0,
   description: "Livemusik am Bodensee",
+  signupCount: 3,
+  messageCount: 4,
 };
 
 describe("EventCard", () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
   it("zeigt Titel und Kategorie", () => {
     renderWithProviders(<EventCard event={event} />);
     expect(screen.getByText("Jazznacht am See")).toBeInTheDocument();
@@ -36,6 +34,12 @@ describe("EventCard", () => {
     expect(screen.getByText(/20\. Juni 2026/)).toBeInTheDocument();
   });
 
+  it("zeigt, wie viele dabei sind und wie viele Nachrichten es gibt", () => {
+    renderWithProviders(<EventCard event={event} />);
+    expect(screen.getByText("3 dabei")).toBeInTheDocument();
+    expect(screen.getByText("4 Nachrichten")).toBeInTheDocument();
+  });
+
   it("verlinkt auf die Detailseite", () => {
     renderWithProviders(<EventCard event={event} />);
     expect(screen.getByRole("link", { name: "Details" })).toHaveAttribute(
@@ -44,15 +48,10 @@ describe("EventCard", () => {
     );
   });
 
-  it("merkt das Event beim Klick auf den Stern vor", () => {
+  it("zeigt ohne Login keinen Favoriten-Stern", () => {
     renderWithProviders(<EventCard event={event} />);
-
-    fireEvent.click(
-      screen.getByRole("button", { name: "Jazznacht am See zu Favoriten hinzufügen" })
-    );
-
     expect(
-      screen.getByRole("button", { name: "Jazznacht am See aus Favoriten entfernen" })
-    ).toBeInTheDocument();
+      screen.queryByRole("button", { name: /Favoriten/ })
+    ).not.toBeInTheDocument();
   });
 });

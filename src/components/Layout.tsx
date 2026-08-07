@@ -5,7 +5,6 @@ import { useFavorites } from "../favorites/FavoritesContext";
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? "nav-link active" : "nav-link";
 
-// Gemeinsamer Rahmen für alle Seiten. Die aktive Route landet im <Outlet />.
 function Layout() {
   const { isAuthenticated, user, logout } = useAuth();
   const { favorites } = useFavorites();
@@ -27,15 +26,18 @@ function Layout() {
           <NavLink to="/" end className={linkClass}>
             Events
           </NavLink>
-          <NavLink to="/favoriten" className={linkClass}>
-            Favoriten
-            {favorites.length > 0 && <span className="count">{favorites.length}</span>}
+          <NavLink to="/karte" className={linkClass}>
+            Karte
           </NavLink>
           <NavLink to="/neu" className={linkClass}>
             Event eintragen
           </NavLink>
           {isAuthenticated ? (
             <>
+              <NavLink to="/favoriten" className={linkClass}>
+                Favoriten
+                {favorites.length > 0 && <span className="count">{favorites.length}</span>}
+              </NavLink>
               <NavLink to="/profil" className={linkClass}>
                 {user?.name}
               </NavLink>

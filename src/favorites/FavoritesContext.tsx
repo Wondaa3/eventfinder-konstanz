@@ -1,49 +1,60 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { apiFetch } from "../api";
+import { useAuth } from "../auth/AuthContext";
+import type { EventItem } from "../types";
 
 type FavoritesContextValue = {
-  favorites: number[];
+  favorites: EventItem[];
+  loading: boolean;
   isFavorite: (id: number) => boolean;
-  toggleFavorite: (id: number) => void;
-  clearFavorites: () => void;
+  toggleFavorite: (id: number) => Promise<void>;
 };
 
 const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 
-const STORAGE_KEY = "latepass-favoriten";
-
-function loadFavorites(): number[] {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    const parsed = saved ? (JSON.parse(saved) as unknown) : [];
-    return Array.isArray(parsed) ? parsed.filter((id) => typeof id === "number") : [];
-  } catch {
-    return [];
-  }
-}
-
-// Merkliste: liegt im Context (viele Komponenten brauchen sie) und wird
-// zusätzlich im localStorage gespeichert, damit sie einen Reload übersteht.
 export function FavoritesProvider({ children }: { children: ReactNode }) {
-  const [favorites, setFavorites] = useState<number[]>(loadFavorites);
+  const { token, isAuthenticated } = useAuth();
+  const [favorites, setFavorites] = useState<EventItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
+  const load = useCallback(async () => {
+    if (!token) {
+      setFavorites([]);
+      return;
+    }
+    setLoading(true);
+    try {
+      setFavorites(await apiFetch<EventItem[]>("/api/users/me/favorites", { token }));
+    } catch {
+      setFavorites([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
+  // Beim Login laden, beim Logout leeren.
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
-  }, [favorites]);
+    load();
+  }, [load]);
 
-  function toggleFavorite(id: number) {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((saved) => saved !== id) : [...prev, id]
-    );
+  async function toggleFavorite(id: number) {
+    if (!isAuthenticated) return;
+    const merken = !favorites.some((event) => event.id === id);
+    await apiFetch(`/api/events/${id}/favorite`, {
+      method: merken ? "POST" : "DELETE",
+      token,
+    });
+    await load();
   }
 
   const value = useMemo(
     () => ({
       favorites,
-      isFavorite: (id: number) => favorites.includes(id),
+      loading,
+      isFavorite: (id: number) => favorites.some((event) => event.id === id),
       toggleFavorite,
-      clearFavorites: () => setFavorites([]),
     }),
-    [favorites]
+    [favorites, loading, token, isAuthenticated]
   );
 
   return <FavoritesContext.Provider value={value}>{children}</FavoritesContext.Provider>;
