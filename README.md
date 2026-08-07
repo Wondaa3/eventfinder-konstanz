@@ -91,8 +91,3 @@ Automatisierte Backend-Tests haben wir nicht geschafft. Das ist die größte Lü
 ## Sicherheit
 
 Die `.env` liegt nicht im Repository, im Git steht nur eine Vorlage ohne echte Secrets. Passwörter werden nur als bcrypt-Hash gespeichert. Beim Login geben wir bei jedem Fehlschlag dieselbe Meldung zurück, egal ob die E-Mail nicht existiert oder das Passwort falsch war, damit man über die API nicht herausfinden kann, welche Adressen registriert sind. `helmet` setzt Sicherheitsheader inklusive einer Content-Security-Policy, die nur die Kartenkacheln als externe Quelle zulässt. SQL-Injection ist kein Thema, weil Prisma keine SQL-Strings selbst zusammenbaut. Für einen echten produktiven Betrieb müsste noch ein neues, zufälliges `JWT_SECRET` gesetzt, die Demo-Nutzer gelöscht und ein nginx mit HTTPS-Zertifikat davorgeschaltet werden.
-
-## Weitere Dokumentation
-
-- Die vollständige Ausarbeitung liegt in `Aufgaben/M4_Ausarbeitung_LatePass.pdf` und geht ausführlich auf Architektur, API-Design, Datenbankschema, jede Umsetzungsphase und die Reflexion ein.
-- Ein Sprechtext für das Demo-Video liegt in `DEMO_VIDEO_TEXT.md`, der ausführliche Aufnahme-Guide in `DEMO_VIDEO.md`.
