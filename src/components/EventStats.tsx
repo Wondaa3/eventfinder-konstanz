@@ -4,7 +4,6 @@ interface EventStatsProps {
   events: EventItem[];
 }
 
-// Alle Zahlen sind abgeleitete Werte (VL 09): kein eigener State nötig.
 function EventStats({ events }: EventStatsProps) {
   const cities = new Set(events.map((event) => event.city));
   const free = events.filter((event) => event.price === 0).length;

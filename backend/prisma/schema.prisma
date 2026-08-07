@@ -8,25 +8,65 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
+  id           Int        @id @default(autoincrement())
+  email        String     @unique
   name         String
   passwordHash String
-  role         String   @default("user")
-  createdAt    DateTime @default(now())
+  role         String     @default("user")
+  createdAt    DateTime   @default(now())
   events       Event[]
+  favorites    Favorite[]
+  signups      Signup[]
+  messages     Message[]
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   title       String
   date        String
   time        String?
   city        String
   category    String
-  price       Int      @default(0)
+  price       Int        @default(0)
   description String?
+  lat         Float?
+  lng         Float?
   userId      Int?
-  user        User?    @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now())
+  user        User?      @relation(fields: [userId], references: [id])
+  createdAt   DateTime   @default(now())
+  favorites   Favorite[]
+  signups     Signup[]
+  messages    Message[]
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, eventId])
+}
+
+model Signup {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  eventId   Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, eventId])
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  text      String
+  userId    Int
+  eventId   Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

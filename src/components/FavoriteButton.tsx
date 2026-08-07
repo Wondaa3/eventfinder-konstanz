@@ -1,3 +1,4 @@
+import { useAuth } from "../auth/AuthContext";
 import { useFavorites } from "../favorites/FavoritesContext";
 
 interface FavoriteButtonProps {
@@ -6,7 +7,11 @@ interface FavoriteButtonProps {
 }
 
 function FavoriteButton({ eventId, title }: FavoriteButtonProps) {
+  const { isAuthenticated } = useAuth();
   const { isFavorite, toggleFavorite } = useFavorites();
+
+  if (!isAuthenticated) return null;
+
   const active = isFavorite(eventId);
 
   return (

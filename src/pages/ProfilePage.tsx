@@ -14,7 +14,6 @@ function ProfilePage() {
 
   useEffect(() => {
     setLoading(true);
-    // Beide Requests laufen parallel (VL 05: Promise.all).
     Promise.all([
       apiFetch<Profile>("/api/profile", { token }),
       apiFetch<EventItem[]>("/api/users/me/events", { token }),

@@ -1,8 +1,6 @@
 import "@testing-library/jest-dom";
 
-// Neuere Node-Versionen bringen ein eigenes localStorage mit, das in der
-// Testumgebung nicht benutzbar ist. Für die Tests ersetzen wir es durch eine
-// kleine Variante, die die Werte einfach im Speicher hält.
+// Node bringt ein localStorage mit, das in der Testumgebung nicht funktioniert.
 function isUsable() {
   try {
     return typeof localStorage.setItem === "function";

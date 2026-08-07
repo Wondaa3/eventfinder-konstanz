@@ -12,6 +12,8 @@ const events: EventItem[] = [
     city: "Konstanz",
     category: "Konzert",
     price: 0,
+    signupCount: 0,
+    messageCount: 0,
   },
   {
     id: 2,
@@ -20,6 +22,8 @@ const events: EventItem[] = [
     city: "Freiburg",
     category: "Party",
     price: 8,
+    signupCount: 2,
+    messageCount: 1,
   },
 ];
 

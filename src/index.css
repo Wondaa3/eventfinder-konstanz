@@ -169,11 +169,41 @@ h3 {
 /* --- Startseite --- */
 
 .hero {
-    background: linear-gradient(120deg, var(--blue-dark), var(--purple));
+    position: relative;
+    overflow: hidden;
+    background-color: var(--blue-dark);
     color: var(--white);
     border-radius: var(--radius);
-    padding: 36px 24px;
+    padding: 48px 24px;
+    min-height: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+}
+
+/* Heatmap als Hintergrund */
+.hero-map {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-map .map {
+    border: none;
+    border-radius: 0;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(15, 23, 42, 0.55), rgba(30, 58, 138, 0.4));
+}
+
+.hero-inhalt {
+    position: relative;
+    z-index: 1;
+    width: 100%;
 }
 
 .hero p {
@@ -207,6 +237,171 @@ h3 {
     margin: 0;
     color: var(--grey-dark);
     font-size: 0.9rem;
+}
+
+/* --- Karte --- */
+
+.map {
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid #e5e7eb;
+    background-color: var(--grey-dark);
+    z-index: 0;
+}
+
+/* Kacheln grauer und dunkler */
+.map .leaflet-tile-pane {
+    filter: grayscale(1) brightness(0.72) contrast(1.15);
+}
+
+.hero .leaflet-tile-pane {
+    filter: grayscale(1) brightness(0.45) contrast(1.2);
+}
+
+.hero .leaflet-control-attribution {
+    background: rgba(15, 23, 42, 0.5);
+    color: var(--grey-light);
+}
+
+.hero .leaflet-control-attribution a {
+    color: var(--blue-light);
+}
+
+.map-legende {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0 0;
+    font-size: 0.85rem;
+    color: var(--blue-light);
+}
+
+.legende-balken {
+    display: inline-block;
+    width: 90px;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #fbbf24, #fb923c, #f97316, #dc2626);
+}
+
+.location-picker {
+    margin-bottom: 8px;
+}
+
+.picker-info {
+    margin: 6px 0 0;
+    font-size: 0.85rem;
+    color: var(--grey-dark);
+}
+
+.feld-titel {
+    margin: 8px 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.detail-map {
+    border-top: 1px solid #e5e7eb;
+    margin-top: 16px;
+    padding-top: 16px;
+}
+
+/* --- Teilnehmer und Chat --- */
+
+.detail-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.box {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+
+.counter {
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+}
+
+.people {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 0;
+}
+
+.people li {
+    background-color: var(--grey-light);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.9rem;
+}
+
+.chat {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-message {
+    background-color: var(--grey-light);
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+.chat-message.own {
+    background-color: var(--blue-light);
+}
+
+.chat-head {
+    margin: 0 0 2px;
+    font-size: 0.8rem;
+    color: var(--grey-dark);
+}
+
+.chat-text {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.chat-form {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.chat-form label {
+    position: absolute;
+    left: -9999px;
+}
+
+.card-counts {
+    display: flex;
+    gap: 12px;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--grey-dark);
+}
+
+button.small {
+    padding: 3px 8px;
+    font-size: 0.8rem;
 }
 
 /* --- Filter --- */
@@ -327,6 +522,10 @@ small {
     margin: 0 auto;
 }
 
+.form-card.wide {
+    max-width: 720px;
+}
+
 .form-row {
     display: flex;
     gap: 12px;
@@ -422,8 +621,14 @@ button.danger:hover {
     gap: 1.5rem;
 }
 
+/* leichtes Punktmuster statt reinem Weiß */
 .event-card {
     background-color: var(--white);
+    background-image:
+        radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.10), transparent 42%),
+        radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.09), transparent 38%),
+        radial-gradient(rgba(30, 58, 138, 0.09) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 14px 14px;
     border-radius: var(--radius);
     border: 1px solid #e5e7eb;
     box-shadow: var(--shadow);
@@ -600,6 +805,10 @@ footer a {
     }
 
     .detail-list {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-columns {
         grid-template-columns: 1fr;
     }
 
