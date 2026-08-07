@@ -67,9 +67,6 @@ function HomePage() {
           <h1>Events in deiner Stadt</h1>
           <p>Finde Konzerte, Partys, Uni-Events und mehr – überall in Deutschland.</p>
           <EventStats events={events} />
-          <p className="map-legende">
-            <span className="legende-balken" /> wenige Events – viele Events
-          </p>
         </div>
       </section>
 

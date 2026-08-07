@@ -262,8 +262,14 @@ h3 {
     width: 100%;
 }
 
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
 .hero p {
-    margin: 0 0 20px;
+    margin: 0 0 28px;
+    font-size: 1.2rem;
     color: var(--blue-light);
 }
 
@@ -272,20 +278,20 @@ h3 {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
     margin: 0;
     padding: 0;
 }
 
 .stats li {
     background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 0.9rem;
+    border-radius: 10px;
+    padding: 14px 28px;
+    font-size: 1.05rem;
 }
 
 .stats strong {
-    font-size: 1.2rem;
+    font-size: 1.9rem;
     display: block;
 }
 
@@ -321,25 +327,6 @@ h3 {
 
 .hero .leaflet-control-attribution a {
     color: var(--blue-light);
-}
-
-.map-legende {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 12px 0 0;
-    font-size: 0.85rem;
-    color: var(--blue-light);
-}
-
-.legende-balken {
-    display: inline-block;
-    width: 90px;
-    height: 10px;
-    border-radius: 5px;
-    background: linear-gradient(90deg, #fbbf24, #fb923c, #f97316, #dc2626);
 }
 
 .location-picker {
@@ -710,12 +697,8 @@ button.danger:hover {
     gap: 1.5rem;
 }
 
-/* dezente Farbverläufe passend zum dunklen Look */
 .event-card {
     background-color: rgba(60, 70, 90, 0.35);
-    background-image:
-        radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.25), transparent 42%),
-        radial-gradient(circle at 0% 100%, rgba(37, 99, 235, 0.22), transparent 38%);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-radius: var(--radius);
@@ -912,6 +895,14 @@ footer a {
 
     .hero {
         padding: 24px 16px;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1.05rem;
     }
 }
 
