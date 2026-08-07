@@ -11,17 +11,21 @@ function CategoryChips({ value, onChange }: CategoryChipsProps) {
 
   return (
     <div className="chip-row">
-      {alle.map((category) => (
-        <button
-          key={category}
-          type="button"
-          className={value === category ? "chip active" : "chip"}
-          aria-pressed={value === category}
-          onClick={() => onChange(category)}
-        >
-          {category}
-        </button>
-      ))}
+      {alle.map((category) => {
+        const kategorieKlasse = `chip-${category.toLowerCase()}`;
+        const aktiv = value === category;
+        return (
+          <button
+            key={category}
+            type="button"
+            className={`chip ${kategorieKlasse}${aktiv ? " active" : ""}`}
+            aria-pressed={aktiv}
+            onClick={() => onChange(category)}
+          >
+            {category}
+          </button>
+        );
+      })}
     </div>
   );
 }

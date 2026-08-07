@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+    import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import EventCard from "./EventCard";
 import { renderWithProviders } from "../test/renderWithProviders";
